@@ -1,4 +1,5 @@
 import numpy as np
+import arcpy
 
 """
 Calculates a latitude raster; each cell gets the latitude of its geographic location
@@ -10,6 +11,9 @@ class Latitude():
         self.name = "Latitude Function"
         self.description = ("Provides a raster of the latitude of "
                             "each cell in the input")
+        self.sr = None
+        self.cgs = None
+        self.cellsize = None
 
 
     def getParameterInfo(self):
@@ -34,9 +38,22 @@ class Latitude():
 
 
     def updateRasterInfo(self, **kwargs):
+        # extent and spatial reference are for map coordinates, not native image coords.
         extent = kwargs['input_info']['extent']
+        self.cellsize = kwargs['input_info']['cellSize'] # Tuple(2x Floats)
+        epsg = kwargs['input_info']['spatialReference'] # int EPSG code
+        self.sr = arcpy.SpatialReference()
+        self.sr.loadFromString(str(epsg))
+        self.cgs = self.sr.GCS
         ymin, ymax = extent[1], extent[3]
-        # may need to convert to geographic
+        if self.cgs != self.sr:
+            xmin, xmax = extent[0], extent[2]
+            p = arcpy.PointGeometry(arcpy.Point(xmin, ymin), self.sr, False, False)
+            q = p.projectAs(self.cgs)
+            ymin = q.firstPoint.Y
+            p = arcpy.PointGeometry(arcpy.Point(xmax, ymax), self.sr, False, False)
+            q = p.projectAs(self.cgs)
+            ymax = q.firstPoint.Y
         kwargs['output_info']['bandCount'] =  1     # output is a single band raster
         kwargs['output_info']['pixelType'] = 'f4'   # output is a 32bit floating point number
         kwargs['output_info']['statistics'] = ({'minimum': ymin, 'maximum':ymax}, )    # we could get something from the input extents
@@ -48,15 +65,23 @@ class Latitude():
         nRows, nCols = shape if len(shape) == 2 else shape[1:]      # dimensions of request pixel block
         # tlc is the row, column number, not the projected or geographic coordinates
         e = props['extent']      # XMin, YMin, XMax, YMax values in the output coordinates
-        h = props['height']      # Number of rows in the of parent raster
+        h = props['height']      # Number of rows in the parent raster
+        w = props['width']       # Number of cols in the parent raster
         dY = (e[3]-e[1])/h       # cell height
-        top_row = tlc[1]
+        dX = (e[2]-e[0])/w       # cell width
+        #dX,dY = self.cellsize
+        left_col, top_row = tlc
         yMax = e[3]-top_row*dY    # top-left corner of request on map
-        # we will cheat and give every cell in the block the same value.
-        # FIXME: if projected, get the geographic value
+        if self.cgs != self.sr:
+            xMin = e[0]+left_col*dX
+            p = arcpy.PointGeometry(arcpy.Point(xMin, yMax), self.sr, False, False)
+            q = p.projectAs(self.cgs)
+            yMax = q.firstPoint.Y
+        # Create a raster with 0 in the top row, 1 in the next row, etc.
         x = np.linspace(0, nCols-1, nCols)
         y = np.linspace(0, nRows-1, nRows)
-        row_matrix = np.meshgrid(x,y)[1]  # has 0 in the top row, 1 in the next row, etc.
+        row_matrix = np.meshgrid(x,y)[1]
+
         latitude = yMax - row_matrix * dY
         pixelBlocks['output_pixels'] = latitude.astype(props['pixelType'], copy=False)
         return pixelBlocks
