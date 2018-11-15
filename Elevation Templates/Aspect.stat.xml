@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<RasterStatistics xml:lang="en">
+    <DatasetName>Aspect</DatasetName>
+    <Band Name="Band_1">
+        <skipFactorX>1</skipFactorX>
+        <skipFactorY>1</skipFactorY>
+        <min>0</min>
+        <max>359</max>
+        <mean>150</mean>
+        <stddev>114</stddev>
+        <Histogram>
+            <npixels>100</npixels>
+            <min>0</min>
+            <max>359</max>
+            <v>10</v>
+            <v>10</v>
+            <v>10</v>
+            <v>10</v>
+            <v>10</v>
+            <v>10</v>
+            <v>10</v>
+            <v>10</v>
+            <v>10</v>
+            <v>10</v>
+        </Histogram>
+    </Band>
+</RasterStatistics>
