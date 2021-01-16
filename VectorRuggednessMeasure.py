@@ -10,8 +10,8 @@ aspect raster (degrees, north = 0, clockwise increase)
 Neighborhood size (int describing a square that is size by size pixels)
 
 This tool measures terrain ruggedness by calculating the vector ruggedness measure
-described in Sappington, J.M., K.M. Longshore, and D.B. Thomson. 2007. Quantifiying
-Landscape Ruggedness for Animal Habitat Anaysis: A case Study Using Bighorn Sheep in
+described in Sappington, J.M., K.M. Longshore, and D.B. Thomson. 2007. Quantifying
+Landscape Ruggedness for Animal Habitat Analysis: A case Study Using Bighorn Sheep in
 the Mojave Desert. Journal of Wildlife Management. 71(5): 1419 -1426.
 
 ref: http://www.bioone.org/doi/abs/10.2193/2005-723
