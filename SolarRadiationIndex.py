@@ -1,4 +1,4 @@
-import numpy as np
+# -*- coding: utf-8 -*-
 
 """
 Calculates a Simple Solar Radiation Index
@@ -21,6 +21,8 @@ first geometric principles and is linearly distributed, SRI offers clear advanta
 aspect-based surrogates. The SRI also is superior to hillshade, which we found to be
 sometimes imprecise and ill-behaved.
 """
+
+import numpy as np
 
 
 class SolarRadiationIndex:

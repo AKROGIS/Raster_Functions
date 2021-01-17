@@ -1,9 +1,11 @@
-import numpy as np
-import arcpy
+# -*- coding: utf-8 -*-
 
 """
 Calculates a latitude raster; each cell gets the latitude of its geographic location
 """
+
+import numpy as np
+import arcpy
 
 
 class Latitude:

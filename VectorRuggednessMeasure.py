@@ -1,5 +1,4 @@
-import numpy as np
-from scipy import ndimage
+# -*- coding: utf-8 -*-
 
 """
 Calculates a Vector Ruggedness Measure
@@ -27,6 +26,9 @@ Information System, we developed a vector ruggedness measure (VRM) of terrain
 based on a geomorphological method for measuring vector dispersion that is less
 correlated with slope...
 """
+
+import numpy as np
+from scipy import ndimage
 
 
 class VectorRuggednessMeasure:
