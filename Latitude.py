@@ -12,7 +12,7 @@ class Latitude:
     def __init__(self):
         self.name = "Latitude Function"
         self.description = (
-            "Provides a raster of the latitude of " "each cell in the input"
+            "Provides a raster of the latitude of each cell in the input"
         )
         self.sr = None
         self.cgs = None

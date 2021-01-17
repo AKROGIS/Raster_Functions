@@ -18,7 +18,7 @@ ref: http://www.bioone.org/doi/abs/10.2193/2005-723
 This Raster Function was based on an arcpy tool originally written by Mark Sappington
 that was last updated 12/17/2010
 
-From the abstract: 
+From the abstract:
 Terrain ruggedness is often an important variable in wildlife habitat models.
 Most methods used to quantify ruggedness are indices derived from measures of
 slope and, as a result, are strongly correlated with slope. Using a Geographic
