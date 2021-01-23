@@ -27,6 +27,8 @@ based on a geomorphological method for measuring vector dispersion that is less
 correlated with slope...
 """
 
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 import numpy as np
 from scipy import ndimage
 

@@ -22,6 +22,8 @@ aspect-based surrogates. The SRI also is superior to hillshade, which we found t
 sometimes imprecise and ill-behaved.
 """
 
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 import numpy as np
 
 

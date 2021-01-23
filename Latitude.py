@@ -4,6 +4,8 @@
 Calculates a latitude raster; each cell gets the latitude of its geographic location
 """
 
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 import numpy as np
 import arcpy
 
@@ -11,9 +13,7 @@ import arcpy
 class Latitude:
     def __init__(self):
         self.name = "Latitude Function"
-        self.description = (
-            "Provides a raster of the latitude of each cell in the input"
-        )
+        self.description = "Provides a raster of the latitude of each cell in the input"
         self.sr = None
         self.cgs = None
         self.cellsize = None
