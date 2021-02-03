@@ -20,9 +20,6 @@ a new raster in memory that can be displayed or exported to disk.
 You will also find custom raster functions that can be used in existing or new
 function chains.
 
-* `AspectSlope.py` - Create a map that simultaneously displays the aspect
-  (direction) and slope(steepness) of a continuous surface, such as terrain as
-  represented in a digital elevation model (DEM).
 * `Latitude.py` - Calculates a latitude raster; each cell gets the latitude of
   its geographic location.
 * `SolarRadiationIndex.py` - Calculates a Simple Solar Radiation Index, using
