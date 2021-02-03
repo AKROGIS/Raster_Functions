@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-
 """
 Calculates a latitude raster; each cell gets the latitude of its geographic location
 """
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-import numpy as np
 import arcpy
+import numpy as np
 
 
 class Latitude:

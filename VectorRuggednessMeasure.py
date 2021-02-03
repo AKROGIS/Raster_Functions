@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 """
 Calculates a Vector Ruggedness Measure
 
