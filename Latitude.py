@@ -47,7 +47,7 @@ class Latitude:
         self.cellsize = kwargs["input_info"]["cellSize"]  # Tuple(2x Floats)
         epsg = kwargs["input_info"]["spatialReference"]  # int EPSG code
         self.sr = arcpy.SpatialReference()
-        self.sr.loadFromString(str(epsg))
+        self.sr.loadFromString("{0}".format(epsg))
         self.cgs = self.sr.GCS
         ymin, ymax = extent[1], extent[3]
         if self.cgs != self.sr:
