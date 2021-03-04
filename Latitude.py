@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 Calculates a latitude raster; each cell gets the latitude of its geographic location
+
+For more information on ArcGIS Python Raster Functions, See:
+https://github.com/Esri/raster-functions/wiki/PythonRasterFunction
 """
 
 from __future__ import absolute_import, division, print_function, unicode_literals
@@ -9,7 +12,13 @@ import arcpy
 import numpy as np
 
 
+# pylint: disable=invalid-name,unused-argument,no-self-use
+# required for the class contract required by the executing framework.
+
+
 class Latitude:
+    """A Python Raster Function to calculate a latitude raster."""
+
     def __init__(self):
         self.name = "Latitude Function"
         self.description = "Provides a raster of the latitude of each cell in the input"
@@ -18,6 +27,8 @@ class Latitude:
         self.cellsize = None
 
     def getParameterInfo(self):
+        """Describes all raster and scalar inputs to the raster function."""
+
         return [
             {
                 "name": "input",
@@ -30,6 +41,8 @@ class Latitude:
         ]
 
     def getConfiguration(self, **scalars):
+        """Define how input rasters are read and the output raster constructed."""
+
         return {
             "inheritProperties": 2
             | 4
@@ -42,6 +55,8 @@ class Latitude:
         }
 
     def updateRasterInfo(self, **kwargs):
+        """Define the location and dimensions of the output raster."""
+
         # extent and spatial reference are for map coordinates, not native image coords.
         extent = kwargs["input_info"]["extent"]
         self.cellsize = kwargs["input_info"]["cellSize"]  # Tuple(2x Floats)
@@ -69,6 +84,10 @@ class Latitude:
         return kwargs
 
     def updatePixels(self, tlc, shape, props, **pixelBlocks):
+        """Creates processed pixels given all scalar and raster inputs."""
+
+        # pylint: disable=too-many-locals
+
         nRows, nCols = (
             shape if len(shape) == 2 else shape[1:]
         )  # dimensions of request pixel block
@@ -96,6 +115,8 @@ class Latitude:
         return pixelBlocks
 
     def updateKeyMetadata(self, names, bandIndex, **keyMetadata):
+        """Define metadata attributes associated with the output raster dataset."""
+
         if bandIndex == -1:
             keyMetadata["datatype"] = "Processed"  # outgoing raster is now 'Processed'
         elif bandIndex == 0:

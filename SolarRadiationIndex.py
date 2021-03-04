@@ -2,6 +2,9 @@
 """
 Calculates a Simple Solar Radiation Index
 
+For more information on ArcGIS Python Raster Functions, See:
+https://github.com/Esri/raster-functions/wiki/PythonRasterFunction
+
 cos(l*pi/180) * cos(s*pi/180) + sin(l*pi/180)*sin(s*pi/180) * cos((180 - a)*pi/180)
 where
 s = slope raster (degrees; 0 = flat, 90 = vertical)
@@ -26,7 +29,13 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import numpy as np
 
 
+# pylint: disable=invalid-name,unused-argument,no-self-use
+# required for the class contract required by the executing framework.
+
+
 class SolarRadiationIndex:
+    """A Python Raster Function to calculate a a Simple Solar Radiation Index."""
+
     def __init__(self):
         self.name = "Solar Radiation Index Function"
         self.description = (
@@ -35,6 +44,8 @@ class SolarRadiationIndex:
         )
 
     def getParameterInfo(self):
+        """Describes all raster and scalar inputs to the raster function."""
+
         return [
             {
                 "name": "slope",
@@ -72,6 +83,8 @@ class SolarRadiationIndex:
         ]
 
     def getConfiguration(self, **scalars):
+        """Define how input rasters are read and the output raster constructed."""
+
         return {
             "inheritProperties": 2
             | 4
@@ -84,6 +97,8 @@ class SolarRadiationIndex:
         }
 
     def updateRasterInfo(self, **kwargs):
+        """Define the location and dimensions of the output raster."""
+
         kwargs["output_info"]["bandCount"] = 1  # output is a single band raster
         kwargs["output_info"][
             "pixelType"
@@ -95,6 +110,8 @@ class SolarRadiationIndex:
         return kwargs
 
     def updatePixels(self, tlc, shape, props, **pixelBlocks):
+        """Creates processed pixels given all scalar and raster inputs."""
+
         slope = np.array(pixelBlocks["slope_pixels"], dtype="f4", copy=False)
         aspect = np.array(pixelBlocks["aspect_pixels"], dtype="f4", copy=False)
         latitude = np.array(pixelBlocks["latitude_pixels"], dtype="f4", copy=False)
@@ -109,6 +126,8 @@ class SolarRadiationIndex:
         return pixelBlocks
 
     def updateKeyMetadata(self, names, bandIndex, **keyMetadata):
+        """Define metadata attributes associated with the output raster dataset."""
+
         if bandIndex == -1:
             keyMetadata["datatype"] = "Processed"  # outgoing raster is now 'Processed'
         elif bandIndex == 0:

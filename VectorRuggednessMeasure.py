@@ -2,6 +2,9 @@
 """
 Calculates a Vector Ruggedness Measure
 
+For more information on ArcGIS Python Raster Functions, See:
+https://github.com/Esri/raster-functions/wiki/PythonRasterFunction
+
 Input:
 slope raster (degrees; 0 = flat, 90 = vertical)
 aspect raster (degrees, north = 0, clockwise increase)
@@ -32,7 +35,13 @@ import numpy as np
 from scipy import ndimage
 
 
+# pylint: disable=invalid-name,unused-argument,no-self-use
+# required for the class contract required by the executing framework.
+
+
 class VectorRuggednessMeasure:
+    """A Python Raster Function to calculate a Vector Ruggedness Measure."""
+
     def __init__(self):
         self.name = "Vector Ruggedness Measure"
         self.description = (
@@ -43,6 +52,8 @@ class VectorRuggednessMeasure:
         self.neighborhood_size = 3
 
     def getParameterInfo(self):
+        """Describes all raster and scalar inputs to the raster function."""
+
         return [
             {
                 "name": "slope",
@@ -80,6 +91,8 @@ class VectorRuggednessMeasure:
         ]
 
     def getConfiguration(self, **scalars):
+        """Define how input rasters are read and the output raster constructed."""
+
         return {
             "inheritProperties": 2
             | 4
@@ -92,6 +105,8 @@ class VectorRuggednessMeasure:
         }
 
     def updateRasterInfo(self, **kwargs):
+        """Define the location and dimensions of the output raster."""
+
         self.neighborhood_size = kwargs.get("size", 3)
 
         kwargs["output_info"]["bandCount"] = 1  # output is a single band raster
@@ -105,6 +120,10 @@ class VectorRuggednessMeasure:
         return kwargs
 
     def updatePixels(self, tlc, shape, props, **pixelBlocks):
+        """Creates processed pixels given all scalar and raster inputs."""
+
+        # pylint: disable=too-many-locals
+
         slope = np.array(pixelBlocks["slope_pixels"], dtype="f4", copy=False)[
             0
         ]  # limit to first (only) band
@@ -134,6 +153,8 @@ class VectorRuggednessMeasure:
         return pixelBlocks
 
     def updateKeyMetadata(self, names, bandIndex, **keyMetadata):
+        """Define metadata attributes associated with the output raster dataset."""
+
         if bandIndex == -1:
             keyMetadata["datatype"] = "Processed"  # outgoing raster is now 'Processed'
         elif bandIndex == 0:
